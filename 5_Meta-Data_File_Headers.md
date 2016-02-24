@@ -5,8 +5,8 @@ This section defines the EBNF syntax for EDK II INF, DEC, DSC and FDF
 files. While this header section is not needed by the EDK II build
 system, the headers in the INF files will be used by the build tools for
 generating "As Built" INF files from sources. For both INF and DEC
-files, these sections are used by the Intel<sup>&reg;</sup> UEFI Packaging
-Tool (UEFIPT) that is included with the EDK II build system binaries.
+files, these sections are used by the UEFI Packaging Tool (UEFIPT) that
+is included with the EDK II build system binaries.
 
 ### Summary
 
