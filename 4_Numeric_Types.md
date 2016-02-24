@@ -7,112 +7,112 @@ or boolean values.
 ### Prototype
 
 ```ini
-<HexDigit> ::= (a-fA-F0-9)
+<HexDigit>           ::= (a-fA-F0-9)
 
-<HexByte> ::= {"0x"} {"0X"} [<HexDigit>] <HexDigit>
+<HexByte>            ::= {"0x"} {"0X"} [<HexDigit>] <HexDigit>
 
-<HexNumber> ::= {"0x"} {"0X"} <HexDigit>+
+<HexNumber>          ::= {"0x"} {"0X"} <HexDigit>+
 
-<HexVersion> ::= "0x" [0]* <Major> <Minor>
+<HexVersion>         ::= "0x" [0]* <Major> <Minor>
 
-<Major> ::= <HexDigit>? <HexDigit>? <HexDigit>? <HexDigit>
+<Major>              ::= <HexDigit>? <HexDigit>? <HexDigit>? <HexDigit>
 
-<Minor> ::= <HexDigit> <HexDigit> <HexDigit> <HexDigit>
+<Minor>              ::= <HexDigit> <HexDigit> <HexDigit> <HexDigit>
 
-<DecimalVersion> ::= {"0"} {(1-9) [(0-9)]*} ["." (0-9)+]
+<DecimalVersion>     ::= {"0"} {(1-9) [(0-9)]*} ["." (0-9)+]
 
-<VersionVal> ::= {<HexVersion>} {(0-9)+ "." (0-99)}
+<VersionVal>         ::= {<HexVersion>} {(0-9)+ "." (0-99)}
 
-<GUID> ::= {<RegistryFormatGUID>} {<CFormatGUID>}
+<GUID>               ::= {<RegistryFormatGUID>} {<CFormatGUID>}
 
 <RegistryFormatGUID> ::= <RHex8> "-" <RHex4> "-" <RHex4> "-" <RHex4> "-" <RHex12>
 
-<RHex4> ::= <HexDigit> <HexDigit> <HexDigit> <HexDigit>
+<RHex4>              ::= <HexDigit> <HexDigit> <HexDigit> <HexDigit>
 
-<RHex8> ::= <RHex4> <RHex4>
+<RHex8>              ::= <RHex4> <RHex4>
 
-<RHex12> ::= <RHex4> <RHex4> <RHex4>
+<RHex12>             ::= <RHex4> <RHex4> <RHex4>
 
-<RawH2> ::= <HexDigit>? <HexDigit>
+<RawH2>              ::= <HexDigit>? <HexDigit>
 
-<RawH4> ::= <HexDigit>? <HexDigit>? <HexDigit>? <HexDigit>
+<RawH4>              ::= <HexDigit>? <HexDigit>? <HexDigit>? <HexDigit>
 
-<OptRawH4> ::= <HexDigit>? <HexDigit>? <HexDigit>? <HexDigit>?
+<OptRawH4>           ::= <HexDigit>? <HexDigit>? <HexDigit>? <HexDigit>?
 
-<Hex2> ::= {"0x"} {"0X"} <RawH2>
+<Hex2>               ::= {"0x"} {"0X"} <RawH2>
 
-<Hex4> ::= {"0x"} {"0X"} <RawH4>
+<Hex4>               ::= {"0x"} {"0X"} <RawH4>
 
-<Hex8> ::= {"0x"} {"0X"} <OptRawH4> <RawH4>
+<Hex8>               ::= {"0x"} {"0X"} <OptRawH4> <RawH4>
 
-<Hex12> ::= {"0x"} {"0X"} <OptRawH4> <OptRawH4> <RawH4>
+<Hex12>              ::= {"0x"} {"0X"} <OptRawH4> <OptRawH4> <RawH4>
 
-<Hex16> ::= {"0x"} {"0X"} <OptRawH4> <OptRawH4> <OptRawH4> <RawH4>
+<Hex16>              ::= {"0x"} {"0X"} <OptRawH4> <OptRawH4> <OptRawH4> <RawH4>
 
-<CFormatGUID> ::= "{" <Hex8> <CommaSpace> <Hex4> <CommaSpace>
-     <Hex4> <CommaSpace> "{"
-     <Hex2> <CommaSpace> <Hex2> <CommaSpace>
-     <Hex2> <CommaSpace> <Hex2> <CommaSpace>
-     <Hex2> <CommaSpace> <Hex2> <CommaSpace>
-     <Hex2> <CommaSpace> <Hex2> "}" "}"
+<CFormatGUID>        ::= "{" <Hex8> <CommaSpace> <Hex4> <CommaSpace>
+                         <Hex4> <CommaSpace> "{"
+                         <Hex2> <CommaSpace> <Hex2> <CommaSpace>
+                         <Hex2> <CommaSpace> <Hex2> <CommaSpace>
+                         <Hex2> <CommaSpace> <Hex2> <CommaSpace>
+                         <Hex2> <CommaSpace> <Hex2> "}" "}"
 
-<CArray> ::= "{" {<NList>} {<CArray>} "}"
+<CArray>             ::= "{" {<NList>} {<CArray>} "}"
 
-<NList> ::= <HexByte> [<CommaSpace> <HexByte>]*
+<NList>              ::= <HexByte> [<CommaSpace> <HexByte>]*
 
-<RawData> ::= <TS> <HexByte> [ <Cs> <HexByte> [<EOL> <TS>] ]*
+<RawData>            ::= <TS> <HexByte> [ <Cs> <HexByte> [<EOL> <TS>] ]*
 
-<Integer> ::= {(0-9)} {(1-9)(0-9)+}
+<Integer>            ::= {(0-9)} {(1-9)(0-9)+}
 
-<Number> ::= {<Integer>} {<HexNumber>}
+<Number>             ::= {<Integer>} {<HexNumber>}
 
-<HexNz> ::= (\x1 - \xFFFFFFFFFFFFFFFF)
+<HexNz>              ::= (\x1 - \xFFFFFFFFFFFFFFFF)
 
-<NumNz> ::= (1-18446744073709551615)
+<NumNz>              ::= (1-18446744073709551615)
 
-<GZ> ::= {<NumNz>} {<HexNz>}
+<GZ>                 ::= {<NumNz>} {<HexNz>}
 
-<TRUE> ::= {"TRUE"} {"true"} {"True"} {"0x1"} {"0x01"} {"1"}
+<TRUE>               ::= {"TRUE"} {"true"} {"True"} {"0x1"} {"0x01"} {"1"}
 
-<FALSE> ::= {"FALSE"} {"false"} {"False"} {"0x0"} {"0x00"} {"0"}
+<FALSE>              ::= {"FALSE"} {"false"} {"False"} {"0x0"} {"0x00"} {"0"}
 
-<BoolType> ::= {<TRUE>} {<FALSE>}
+<BoolType>           ::= {<TRUE>} {<FALSE>}
 
-<UINT8> ::= {"0x"} {"0X"} (\x0 - \xFF)
+<UINT8>              ::= {"0x"} {"0X"} (\x0 - \xFF)
 
-<UINT16> ::= "0x"} {"0X"} (\x0 - \xFFFF)
+<UINT16>             ::= "0x"} {"0X"} (\x0 - \xFFFF)
 
-<UINT32> ::= {"0x"} {"0X"} (\x0 - \xFFFFFFFF)
+<UINT32>             ::= {"0x"} {"0X"} (\x0 - \xFFFFFFFF)
 
-<UINT64> ::= {"0x"} {"0X"} (\x0 - \xFFFFFFFFFFFFFFFF)
+<UINT64>             ::= {"0x"} {"0X"} (\x0 - \xFFFFFFFFFFFFFFFF)
 
-<UINT8z> ::= {"0x"} {"0X"} <HexDigit> <HexDigit>
+<UINT8z>             ::= {"0x"} {"0X"} <HexDigit> <HexDigit>
 
-<UINT16z> ::= {"0x"} {"0X"} <HexDigit> <HexDigit> <HexDigit> <HexDigit>
+<UINT16z>            ::= {"0x"} {"0X"} <HexDigit> <HexDigit> <HexDigit> <HexDigit>
 
-<UINT32z> ::= {"0x"} {"0X"} <HexDigit> <HexDigit> <HexDigit> <HexDigit>
-     <HexDigit> <HexDigit> <HexDigit> <HexDigit>
+<UINT32z>            ::= {"0x"} {"0X"} <HexDigit> <HexDigit> <HexDigit> <HexDigit>
+                         <HexDigit> <HexDigit> <HexDigit> <HexDigit>
 
-<UINT64z> ::= {"0x"} {"0X"} <HexDigit> <HexDigit> <HexDigit> <HexDigit>
-     <HexDigit> <HexDigit> <HexDigit> <HexDigit> <HexDigit>
-     <HexDigit> <HexDigit> <HexDigit> <HexDigit> <HexDigit>
-     <HexDigit> <HexDigit>
+<UINT64z>            ::= {"0x"} {"0X"} <HexDigit> <HexDigit> <HexDigit> <HexDigit>
+                         <HexDigit> <HexDigit> <HexDigit> <HexDigit> <HexDigit>
+                         <HexDigit> <HexDigit> <HexDigit> <HexDigit> <HexDigit>
+                         <HexDigit> <HexDigit>
 
-<ShortNum> ::= (0-255)
+<ShortNum>           ::= (0-255)
 
-<IntNum> ::= (0-65535)
+<IntNum>             ::= (0-65535)
 
-<LongNum> ::= (0-4294967295)
+<LongNum>            ::= (0-4294967295)
 
-<LongLongNum> ::= (0-18446744073709551615)
+<LongLongNum>        ::= (0-18446744073709551615)
 
-<NumValUint8> ::= {<ShortNum>} {<UINT8>}
+<NumValUint8>        ::= {<ShortNum>} {<UINT8>}
 
-<NumValUint16> ::= {<IntNum>} {<UINT16>}
+<NumValUint16>       ::= {<IntNum>} {<UINT16>}
 
-<NumValUint32> ::= {<LongNum>} {<UINT32>}
+<NumValUint32>       ::= {<LongNum>} {<UINT32>}
 
-<NumValUint64> ::= {<LongLongNum>} {<UINT64>}
+<NumValUint64>       ::= {<LongLongNum>} {<UINT64>}
 ```
 
 ### Parameter Definitions
@@ -122,7 +122,7 @@ or boolean values.
 <p>
 All C data arrays used in PCD value fields must be byte arrays. The C 
 format GUID style is a special case that is permitted in some fields 
-that use the <code><CArray></code> nomenclature.
+that use the <code>&lt;CArray&gt;</code> nomenclature.
 </p>
 
 
