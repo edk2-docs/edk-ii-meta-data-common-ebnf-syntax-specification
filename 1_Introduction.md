@@ -4,7 +4,7 @@
 This document is intended for the EDK II Developers responsible for
 creating and editing EDK II Tools and the EDK II Module Information
 (INF), Package Declaration (DEC), Platform Description (DSC) and Flash
-Definition (FDF) meta-data files. This document provides EBNF and ABNF
+Definition (FDF) meta-data files. This document provides EBNF
 syntax for common elements used by the EDK II meta-data file
 specifications.
 
