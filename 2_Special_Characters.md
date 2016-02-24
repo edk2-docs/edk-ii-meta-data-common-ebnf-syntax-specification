@@ -4,7 +4,7 @@
 The following EBNF describes the different special characters and
 operator sequences that may be present in the EDK II meta-data
 specification elements. In the following, values on the right side of
-the ::= character sequence that start with 0x are the
+the ```::=``` character sequence that start with ```0x``` are the
 hexadecimal character values.
 
 ### Prototype
