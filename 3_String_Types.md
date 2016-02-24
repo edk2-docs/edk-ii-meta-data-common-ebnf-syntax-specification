@@ -105,7 +105,7 @@ strings.
 
 *UnicodeString*
 <p>
-When the <code><UnicodeString></code> element (these characters are string
+When the <code>&lt;UnicodeString&gt;</code> element (these characters are string
 literals as defined by the C99 specification: <code>L"string"</code>, not actual 
 Unicode characters) is included in a value, the build tools may be 
 required to expand the ASCII string between the quotation marks into a
@@ -119,7 +119,7 @@ and <i>AutoGen.h</i> files.
 <p>
 Strings that appear in comments may be ignored by the build tools. An ASCII string
 matching the format of the ASCII string defined by 
-<code><UnicodeString></code> (<code>L"Foo"</code>, for example) that appears
+<code>&lt;UnicodeString&gt;</code> (<code>L"Foo"</code>, for example) that appears
 in a comment must never be expanded by any tool.
 </p>
 
@@ -134,12 +134,15 @@ A word that is a valid C variable that specifies the name of the token number wh
 a member of the name space specified by the TokenSpaceGuidCName.
 </p>
 
+*PcdName*
+<p>
+The combination of the TokenSpaceGuidCName and PcdCName values, joined by the period character as in:
+<code>gNoSuchTokenSpaceGuidName.PcdNoSuchPcd</code>
+</p>
+
 *CFlags*
 <p>
-<code>CFlags</code>` refers to a string of valid arguments appended to the command
-line of any third party or provided tool. It is not limited to just a compiler 
-executable tool. MACRO values that appear in quoted strings in <code>CFlags</code>
-content must not be expanded by parsing tools.
+<code>CFlags</code> refers to a string of valid arguments appended to the command line of any third party or provided tool. It is not limited to just a compiler executable tool. MACRO values that appear in quoted strings in <code>CFlags</code> content must not be expanded by parsing tools.
 </p>
 
 *OA*
