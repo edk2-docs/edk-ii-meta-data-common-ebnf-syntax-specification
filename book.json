@@ -1,9 +1,9 @@
 {
-    "plugins": [
-        "toc",
-        "tocstyles"
-    ],
+    "plugins": ["atoc"],
     "pluginsConfig": {
-        "tocstyles" : [ "", "cjk-ideographic", "decimal-leading-zero" ]
-         },
+        "atoc": {
+            "addClass": true,
+            "className": "atoc"
+        }
+    }
 }
