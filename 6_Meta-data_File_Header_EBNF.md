@@ -54,8 +54,8 @@ A brief one line description of what the module does.
 <li>The INF or DEC file will always have an English version of the Abstract. 
 Other localized versions of the abstract must be stored in a Multi-string UNI 
 file that is specified in the <code>[Defines]</code> section's 
-<code>`MODULE_UNI_FILE</code>` entry in INF files or 
-<code>`PACKAGE_UNI_FILE</code> entry in DEC files.</li></ul>
+<code>MODULE_UNI_FILE</code> entry in INF files or 
+<code>PACKAGE_UNI_FILE</code> entry in DEC files.</li></ul>
 </p>
 
 *Description*
