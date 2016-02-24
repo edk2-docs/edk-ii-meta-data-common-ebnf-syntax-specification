@@ -134,7 +134,7 @@ varying aspects of input localization:
 </tr>
 <tr>
 <td><b>Library Class</b></td>
-<td> A library class defines the API or interface set for library functions. The consumer of the library is coded to a library class definition. Different library modules may provide a unique implementation of a specific library class. There may be NULL library class implementations that are nothing more that stub functions; doing nothing. This is most often used to control debugging information - during development, debugging information is highly valuable, while a release version of a module may link to a NULL library instance. The module can be coded without worrying about whether it will be linked to either a NULL instance or the actual DEBUG instance. </td>
+<td> A library class defines the API or interface set for library functions. The consumer of the library is coded to a library class definition. Different library modules may provide a unique implementation of a specific library class. There may be <b>NULL</b> library class implementations that are nothing more that stub functions; doing nothing. This is most often used to control debugging information - during development, debugging information is highly valuable, while a release version of a module may link to a <b>NULL</b> library instance. The module can be coded without worrying about whether it will be linked to either a <b>NULL</b> instance or the actual <b>DEBUG</b> instance. </td>
 </tr>
 <tr>
 <td><b>Module Type</b></td>
