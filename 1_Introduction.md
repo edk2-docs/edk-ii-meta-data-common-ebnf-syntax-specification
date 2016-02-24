@@ -1,0 +1,260 @@
+1. Introduction
+===============
+
+This document is intended for the EDK II Developers responsible for
+creating and editing EDK II Tools and the EDK II Module Information
+(INF), Package Declaration (DEC), Platform Description (DSC) and Flash
+Definition (FDF) meta-data files. This document provides EBNF and ABNF
+syntax for common elements used by the EDK II meta-data file
+specifications.
+
+This document provides the EBNF for common elements used in the EDK II
+Meta-Data Specifications. In the ENBF syntax entries in following
+sections, the semi-colon (**;**) character is used to indicate comment
+content in the EBNF statements.
+
+## 1.1 Overview
+---------------
+
+EDK II tools use INI-style text-based files to describe components,
+platforms and firmware volumes. The EDK II Build Infrastructure supports
+generation of binary images compliant with Unified EFI Forum (UEFI)
+specifications UEFI and Platform Initialization (PI).
+
+The syntax defined in this specification, used in conjunction with the
+syntax specified for each of the EDK II meta-data files can be used to
+create parsers.
+
+The EBNF syntax used in the EDK II Meta-Data files does not follow [ISO
+14977](http://www.cl.cam.ac.uk/~mgk25/iso-14977.pdf).
+
+## 1.2 Related Information
+--------------------------
+
+The following publications and sources of information may be useful to
+you or are referred to by this specification:
+
+-   Unified Extensible Firmware Interface Specification, Unified EFI,
+    Inc., 2015 or later, <http://www.uefi.org>.
+
+-   UEFI Platform Initialization Specification, Unified EFI, Inc., 2015
+    or later, <http://www.uefi.org>.
+
+-   UEFI Platform Initialization Distribution Packaging Specification,
+    Unified EFI, Inc., 2016 or later, <http://www.uefi.org>.
+
+-   <https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-Specifications>
+
+    -   EDK II Module Writers Guide, Intel, 2010.
+    -   UEFI Driver Writer Guide, Intel, 2012.
+    -   EDK II User Manual, Intel, 2010.
+    -   EDK II C Coding Standard, Intel, 2015.
+    -   EDK II Build Specification, Intel, 2016.
+    -   EDK II DEC Specification, Intel, 2016.
+    -   EDK II DSC Specification, Intel, 2016.
+    -   EDK II FDF Specification, Intel, 2016.
+    -   EDK II INF File Specification, Intel, 2016.
+    -   EDK II Expression Syntax Specification, Intel, 2015.
+    -   Multi-String UNI File Format Specification, Intel, 2015.
+    -   VFR Programming Language, Intel, 2012.
+    -   UEFI Packaging Tool (UEFIPT) Quick Start, Intel, 2015.
+
+
+-   INI file, Wikipedia, <http://en.wikipedia.org/wiki/INI_file>.
+
+-   *C Now - C Programming Information*, Langston University, Tulsa
+    Oklahoma, J.H. Young, 1999-2011,
+    <http://c.comsci.us/syntax/expression/ebnf.html>.
+
+## 1.3 Terms
+------------
+
+The following terms are used throughout this document to describe
+varying aspects of input localization:
+
+**Table 1.1 Terms**
+
+<table style="border:2px solid black; border-collapse=collapse;">
+<tr>
+<td align="center"><b>Term</b></td>
+<td align="center"><b>Definition</b></td>
+</tr>
+<tr>
+<td><b>BaseTools</b></td>
+<td>The BaseTools are the tool required for an EDK II build.</td>
+</tr>
+<tr>
+<td><b>DEC</b></td>
+<td>            EDK II Package Declaration File. This file declares information about what is provided in the package. An EDK II package is a collection of like content.</td>
+</tr>
+<tr>
+<td><b>DEPEX</b></td>
+<td>          Module dependency expressions that describe runtime process restrictions </td>
+</tr>
+<tr>
+<td><b>Dist</b></td>
+<td>        This refers to a distribution package that conforms to the UEFI Platform Initialization Distribution Package Specification. There is no direct correlation of a Dist and an EDK II package, although for this tool, a dist package will be created for individual EDK II binary packages </td>
+</tr>
+<tr>
+<td><b>DISPOSABLE</b></td>
+<td>     EDK II uses this term to describe binary files that are not used in FFS images. These files include the debug meta-data files, such as Microsoft's PDB file and the GCC debug file needed by GDB. The PI specification allows specifying DISPOSABLE sections that can be omitted from the final FFS file. </td>
+</tr>
+<tr>
+<td><b>DSC</b></td>
+<td> EDK II Platform Description File. This file describes what and how modules and libraries are built, as well as defining the library instances that will be linked to components. </td>
+</tr>
+<tr>
+<td><b>EBNF</b></td>
+<td> Extended Backus Naur Form. </td>
+</tr>
+<tr>
+<td><b>FDF</b></td>
+<td> EDK II Flash Definition File. This file is used to define the content and layout of firmware images, update capsules and PCI option ROMs. This file is not required to build code, and therefore, will not be referenced by the DSC files created for this tool.</td>
+</tr>
+<tr>
+<td><b>GUID</b></td>
+<td> Globally Unique Identifier. A 128-bit value used to name entities uniquely. A unique GUID can be generated by an individual without the help of a centralized authority. This allows the generation of names that will never conflict, even among multiple, unrelated parties. GUID values and be specified in either registry format (8-4-4-4-12) or formatted as a C data structure ({8,4,4,{2,2,2,2,2,2,2,2,2}) </td>
+</tr>
+<tr>
+<td><b>HII</b></td>
+<td> Human Interface Infrastructure. This generally refers to the database that contains string, font and IFR information, along with other pieces that use one of the database components. HII character strings are required to be UCS-2 characters.</td>
+</tr>
+<tr>
+<td><b>IFR</b></td>
+<td> Internal Forms Representation. This is the binary encoding that is used for the representation of user interface pages. </td>
+</tr>
+<tr>
+<td><b>INF</b></td>
+<td> EDK II Module Information File. This file describes how the module is coded. For EDK, this file describes how the component or library is coded as well as providing some basic build information. <ul> <li>Source INF - An EDK II Module Information file that contains content in a [Sources] section and it does not contain a [Binaries] section. If the [Binaries] section is empty or the only entries in the [Binaries] section are of type DISPOSABLE, then the [Binaries] section is ignored.</li><li>Binary INF - An EDK II Module Information file that has a [Binaries] section and does not contain a [Sources] section or the [Sources] section is empty.</li><li>Mixed INF - An EDK II Module Information file that contains content in both [Sources] and [Binaries] sections and there are entries in the [Binaries] section are not of type DISPOSABLE</li><li>AsBuilt INF - An EDK II Module Information file generated by the EDK II build system when building source content (listed in a [Sources] section).</li></ul> </td>
+</tr>
+<tr>
+<td><b>Library Class</b></td>
+<td> A library class defines the API or interface set for library functions. The consumer of the library is coded to a library class definition. Different library modules may provide a unique implementation of a specific library class. There may be NULL library class implementations that are nothing more that stub functions; doing nothing. This is most often used to control debugging information - during development, debugging information is highly valuable, while a release version of a module may link to a NULL library instance. The module can be coded without worrying about whether it will be linked to either a NULL instance or the actual DEBUG instance. </td>
+</tr>
+<tr>
+<td><b>Module Type</b></td>
+<td> All EDK II Modules belong to one of the following module types: BASE, SEC, PEI_CORE, PEIM, DXE_CORE, DXE_DRIVER, DXE_RUNTIME_DRIVER, DXE_SMM_DRIVER, DXE_SAL_DRIVER, UEFI_DRIVER or UEFI_APPLICATION, SMM_CORE.<p>A USER_DEFINED module type has also been defined. This permits adding custom binary content, such as a Logo image file to firmware.</p></td>
+</tr>
+<tr>
+<td><b>PCD</b></td>
+<td> Platform Configuration Database.</td>
+</tr>
+<tr>
+<td><b>PPI</b></td>
+<td> A PEIM-to-PEIM interface that is named by GUID.</td>
+</tr>
+<tr>
+<td><b>Protocol</b></td>
+<td> An API named by GUID.</td>
+</tr>
+<tr>
+<td><b>SKU</b></td>
+<td> Stock Keeping Unit.</td>
+</tr>
+<tr>
+<td><b>VFR</b></td>
+<td> Visual Forms Representation.</td>
+</tr>
+<tr>
+<td><b>VPD</b></td>
+<td> Vital Product Data. This is read-only binary configuration data, typically located within a region of a flash part. This data is typically updated as part of the firmware build, post firmware build (via patching tools) through automation on manufacture lines. The data structure usually remains static so that the tools on the production line don't change between different versions of firmware.</td>
+</tr>
+</table>
+  
+
+
+## 1.4 Conventions and Symbols
+------------------------------
+
+The following typographic conventions are used in this section of the
+document to illustrate the Extended Backus-Naur Form.
+
+**Table 1.2 Conventions and Symbols used in this Document**
+
+<table style="border:2px solid black; border-collapse=collapse;">
+<tr>
+<th align="center" width="20%"><b>Typographic Convention</b></th>
+<th align="center"><b>Typographic Convention Description</b></th>
+</tr>
+<tr>
+<td>Plain text</td>
+<td> The normal text typeface is used for the vast majority of the descriptve text in a specification. </td>
+</tr>
+<tr>
+<td> <a href=""><u>Plain text (blue)</u></a> </td>
+<td> Any <a href=""><u>plain text</u></a> that is underlined and in blue indicates an active link to the cross-reference. Click on the word to follow the hyperlink. </td>
+</tr>
+<tr>
+<td><b>Bold</b></td>
+<td> In text, a **Bold** typeface identifies a processor register name. In other instances, a **Bold** typeface can be used as a running head within a paragraph. </td>
+</tr>
+<tr>
+<td><i>Italic</i></td>
+<td>In text, an *Italic* typeface can be used as emphasis to introduce a new term or to indicate a manual or specification name. </td>
+</tr>
+<tr>
+<td> <code>Code</code> </td>
+<td> Computer code, example code segments, and all prototype code segments use a <code>code</code> typeface with a red color. These code listings normally appear in one or more separate paragraphs, though words or segments can also be embedded in a normal text paragraph. </td>
+</tr>
+</table>
+  
+
+**Table 1.3 EBNF Conventions**
+
+<table style="border:2px solid black; border-collapse=collapse;">
+<tr>
+<th align="center" width="20%"><b>Typographic Convention</b></th>
+<th align="center"><b>Typographic Convention Description</b></th>
+</tr>
+<tr>
+<td> [item] </td>
+<td> Square brackets denote the enclosed item is optional.</td>
+</tr>
+<tr>
+<td> {item1} {item2}</td>
+<td> Curly braces denote a choice or selection item, only one of which may occur on a given line. For example, item1 or item2 is required. </td>
+</tr>
+<tr>
+<td> <item> </td>
+<td> Angle brackets denote a name for an item. </td>
+</tr>
+<tr>
+<td> (range-range) </td>
+<td> Parenthesis with characters and dash characters denote ranges of values, for example, (a-zA-Z0-9) indicates a single alphanumeric character, while (0-9) indicates a single digit.</td>
+</tr>
+<tr>
+<td> "item" </td>
+<td> Characters within quotation marks are the exact content of an item, as they must appear in the output text file. </td>
+</tr>
+<tr>
+<td> ? </td>
+<td> The question mark denotes zero or one occurrence of an item. </td>
+</tr>
+<tr>
+<td> * </td>
+<td> The star character denotes zero or more occurrences of an item. </td>
+</tr>
+<tr>
+<td> + </td>
+<td> The plus character denotes one or more occurrences of an item. </td>
+</tr>
+<tr>
+<td> item<sup>{n}</sup> </td>
+<td> A superscript number, n, is the number occurrences of the item that must be used. Example: (0-9)<sup>8</sup> indicates that there must be exactly eight digits, so 01234567 is valid, while 1234567 is not valid.</td>
+</tr>
+<tr>
+<td> item<sup>{n,}</sup> </td>
+<td> A superscript number, n, within curly braces followed by a comma "," indicates the minimum number of occurrences of the item, with no maximum number of occurrences. </td>
+</tr>
+<tr>
+<td> item<sup>{,n}</sup> </td>
+<td> A superscript number, n, within curly brackets, preceded by a comma ","indicates a maximum number of occurrences of the item. </td>
+</tr>
+<tr>
+<td> item<sup>{n,m}</sup> </td>
+<td> A super script number, n, followed by a comma "," and a number, m, indicates that the number of occurrences can be from n to m occurrences of the item, inclusive. </td>
+</tr>
+</table>
+
+
+
